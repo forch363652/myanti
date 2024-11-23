@@ -69,6 +69,7 @@ JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved){
         LOGE("警告=====>正在开启代理");
     }
     LOGD("代理并没有开启");
+    LOGD("代理并没有开启");
 
     LOGE("警告=====>正在开启代理");
 
