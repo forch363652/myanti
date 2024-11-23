@@ -4,11 +4,11 @@
 #include "base/Env/Env.h"
 #include "anti/antiCapture/antiCapture.h"
 #include "include/global.h"
-
+#include "tools/md5/MD5.h"
 
 std::string passValue = "you pass";
 
-
+static char* EXTRA_SIGNATURE = "JILLIAN";
 void init_env(JNIEnv env);
 #define NELEM(...) sizeof(__VA_ARGS__) / sizeof(JNINativeMethod)
 
@@ -19,22 +19,34 @@ Java_com_forchan_ndkanti_MainActivity_stringFromJNI(
     std::string hello = "Hello from C++";
     return env->NewStringUTF(hello.c_str());
 }
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_forchan_ndkanti_tools_java2ndk_native_1check(JNIEnv *env, jclass clazz, jstring val,
-                                                      jobject context) {
 
+jstring md5(JNIEnv* env,jclass cls,jstring params_){
+    LOGE("FORCHAN","params===>","nihao");
+    const char *params = env->GetStringUTFChars(params_, 0);
+    LOGE("FORCHAN","params===>%s",params);
 
+    string enctyCode((params));
+    enctyCode.insert(0, EXTRA_SIGNATURE);
+    // 2.去掉后面2位
+    enctyCode = enctyCode.substr(0, enctyCode.length()-2);
+    // 3.MD5去加密
+    char  *result =  MD5::result(const_cast<char *>(enctyCode.c_str()));
+    string str = "nihao";
+    return env->NewStringUTF(result);
 
 }
+
 void  check(JNIEnv* env,jclass cls,jstring key,jobject thiz){
     LOGD("forchan","已经进入了check函数");
     LOGD("forchan","已经进入了check函数");
 
 
+
+
 }
 
  jstring getPassvalue(JNIEnv *env,jclass thiz){
+     LOGE("passValue.c_str()");
     return env->NewStringUTF(passValue.c_str());
 }
 
@@ -86,7 +98,8 @@ JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved){
 
     JNINativeMethod nativemethods[]={
             {"native_check", "(Ljava/lang/String;Landroid/content/Context;)V",(void*)check},
-            {"native_getPassValue", "()Ljava/lang/String;",(void*)getPassvalue}
+            {"native_getPassValue", "()Ljava/lang/String;",(void*)getPassvalue},
+            {"native_md5","(Ljava/lang/String;)Ljava/lang/String;",(void*) md5}
     };
     if (env->RegisterNatives(clsForchan,nativemethods, NELEM(nativemethods))<0){
         LOGE("JNI_OnLoad RegisterNatives error");
@@ -102,3 +115,9 @@ JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved){
 
 
 
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_forchan_ndkanti_tools_java2ndk_native_1md5(JNIEnv *env, jclass clazz, jstring str) {
+    // TODO: implement native_md5()
+}

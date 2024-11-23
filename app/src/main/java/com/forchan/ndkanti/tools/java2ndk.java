@@ -16,12 +16,19 @@ public class java2ndk {
     }
 
     public static void  check(String val, Context context){
-        Log.d("check:","good work");
+        Log.d("check:","c");
         native_check(val,context);
     }
 
+    public static String md5(String input){
+        return native_md5(input);
+    }
+
+
     private static native void native_check(String val,Context context);
     public static native String native_getPassValue();
+
+    public static native String native_md5(String str);
 
 
 }

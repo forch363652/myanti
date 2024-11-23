@@ -31,7 +31,7 @@ aux_source_directory(base/mem DIR_LIB_SRCS)
 aux_source_directory(base/str DIR_LIB_SRCS)
 aux_source_directory(base/file DIR_LIB_SRCS)
 aux_source_directory(anti/antiCapture DIR_LIB_SRCS)
-
+aux_source_directory(tools/md5  DIR_LIB_SRCS)
 
 
 

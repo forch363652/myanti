@@ -1,5 +1,7 @@
 package com.forchan.ndkanti;
 
+import static com.forchan.ndkanti.tools.java2ndk.md5;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.widget.Toast;
 
 import com.forchan.ndkanti.databinding.ActivityMainBinding;
 import com.forchan.ndkanti.tools.java2ndk;
+
 
 public class MainActivity extends AppCompatActivity {
     private Button btnenterndk;
@@ -27,6 +30,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         btnenterndk = findViewById(R.id.btnenterndk);
         java2ndk.init();
+
+        String str = "forchan";
+        try {
+            str=md5(str);
+        } catch (Exception e) {
+            str="报错";
+            e.printStackTrace();
+        }
+        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+
 
         btnenterndk.setOnClickListener(new View.OnClickListener() {
             @Override
